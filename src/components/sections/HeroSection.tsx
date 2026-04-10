@@ -1,10 +1,11 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useState } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { heroCopy } from '../../data/copy';
 import { GlassButton } from '../ui/GlassButton';
 import { Play, ArrowRight } from 'lucide-react';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { trackEvent } from '../../lib/analytics';
+import { ShowcaseImageModal } from '../modals/ShowcaseImageModal';
 
 interface HeroSectionProps {
   onVideoClick: () => void;
@@ -14,6 +15,17 @@ interface HeroSectionProps {
 export function HeroSection({ onVideoClick, videoAvailable = false }: HeroSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const isMobile = useIsMobile();
+  const [modalImage, setModalImage] = useState<{ src: string; webp: string; alt: string } | null>(null);
+  const handleDashboardClick = useCallback(() => setModalImage({
+    src: '/images/hero-dashboard-full.png',
+    webp: '/images/hero-dashboard-full.webp',
+    alt: 'Havenue dashboard showing revenue of £70,900, GP% at 78.5%, and event management',
+  }), []);
+  const handleCOFClick = useCallback(() => setModalImage({
+    src: '/images/engine-cof-output.png',
+    webp: '/images/engine-cof-output.webp',
+    alt: 'Catering Event Order Form output',
+  }), []);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
@@ -65,6 +77,7 @@ export function HeroSection({ onVideoClick, videoAvailable = false }: HeroSectio
           }}
           whileHover={isMobile ? undefined : { scale: 1.03 }}
           transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+          onClick={handleDashboardClick}
         >
           <picture>
             <source srcSet="/images/hero-dashboard-full.webp" type="image/webp" />
@@ -106,6 +119,7 @@ export function HeroSection({ onVideoClick, videoAvailable = false }: HeroSectio
         }}
         whileHover={isMobile ? undefined : { scale: 1.15, y: -10 }}
         transition={{ type: 'spring', stiffness: 250, damping: 20 }}
+        onClick={handleCOFClick}
       >
         <picture>
           <source srcSet="/images/engine-cof-output.webp" type="image/webp" />
@@ -218,6 +232,16 @@ export function HeroSection({ onVideoClick, videoAvailable = false }: HeroSectio
           )}
         </div>
       </div>
+
+      {modalImage && (
+        <ShowcaseImageModal
+          isOpen={true}
+          onClose={() => setModalImage(null)}
+          imageSrc={modalImage.src}
+          imageWebP={modalImage.webp}
+          imageAlt={modalImage.alt}
+        />
+      )}
     </section>
   );
 }

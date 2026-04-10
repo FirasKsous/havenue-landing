@@ -1,10 +1,11 @@
-import { useRef } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { featureSafetyEngineCopy, safetySteps } from '../../data/copy';
 import { GlassCard } from '../ui/GlassCard';
 import { SectionHeading } from '../ui/SectionHeading';
 import { Users, Cpu, FileOutput } from 'lucide-react';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { ShowcaseImageModal } from '../modals/ShowcaseImageModal';
 
 const iconMap = {
   Users,
@@ -15,6 +16,17 @@ const iconMap = {
 export function FeatureSafetyEngine() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const [modalImage, setModalImage] = useState<{ src: string; webp: string; alt: string } | null>(null);
+  const handleCOFClick = useCallback(() => setModalImage({
+    src: '/images/engine-cof-output.png',
+    webp: '/images/engine-cof-output.webp',
+    alt: 'Havenue AI Safety Engine generating allergy-safe Catering Event Order with dietary sub-menus',
+  }), []);
+  const handleVaultClick = useCallback(() => setModalImage({
+    src: '/images/financial-vault-breakdown.png',
+    webp: '/images/financial-vault-breakdown.webp',
+    alt: 'Financial breakdown showing per-event P&L with revenue, food cost, and GP%',
+  }), []);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
@@ -61,7 +73,7 @@ export function FeatureSafetyEngine() {
             >
               <GlassCard
                 noBlur
-                className="relative p-0 border-[#2F8F4E]/25 cursor-pointer"
+                className="relative p-0 border-[#2F8F4E]/25 cursor-pointer transition-transform duration-300 ease-out hover:scale-[1.03]"
                 style={{
                   boxShadow: `
                     0 40px 80px rgba(0,0,0,0.5),
@@ -69,6 +81,7 @@ export function FeatureSafetyEngine() {
                     inset 0 1px 0 rgba(255,255,255,0.06)
                   `,
                 }}
+                onClick={handleCOFClick}
               >
                 <div className="rounded-lg overflow-hidden bg-[#111]">
                   <picture>
@@ -99,10 +112,11 @@ export function FeatureSafetyEngine() {
               }}
             >
               <div
-                className="rounded-xl overflow-hidden border-2 border-[#2F8F4E]/45 bg-[#111] cursor-pointer"
+                className="rounded-xl overflow-hidden border-2 border-[#2F8F4E]/45 bg-[#111] cursor-pointer transition-transform duration-300 ease-out hover:scale-[1.03]"
                 style={{
                   boxShadow: '0 30px 60px rgba(0,0,0,0.7), 0 0 50px rgba(47, 143, 78,0.2)',
                 }}
+                onClick={handleVaultClick}
               >
                 <picture>
                   <source srcSet="/images/financial-vault-breakdown.webp" type="image/webp" />
@@ -159,6 +173,16 @@ export function FeatureSafetyEngine() {
           </div>
         </div>
       </div>
+
+      {modalImage && (
+        <ShowcaseImageModal
+          isOpen={true}
+          onClose={() => setModalImage(null)}
+          imageSrc={modalImage.src}
+          imageWebP={modalImage.webp}
+          imageAlt={modalImage.alt}
+        />
+      )}
     </section>
   );
 }

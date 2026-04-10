@@ -1,7 +1,12 @@
+import { useState, useCallback } from 'react';
 import { paradigmShiftCopy } from '../../data/copy';
 import { SectionHeading } from '../ui/SectionHeading';
+import { ShowcaseImageModal } from '../modals/ShowcaseImageModal';
 
 export function ParadigmShift() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleImageClick = useCallback(() => setIsModalOpen(true), []);
+
   return (
     <section
       id="solution"
@@ -37,6 +42,7 @@ export function ParadigmShift() {
           {/* Full-width screenshot — container expands with image on hover */}
           <div className="max-w-[82rem] mx-auto">
             <div
+              onClick={handleImageClick}
               className="bg-white/[0.03] border border-[#2F8F4E]/25 rounded-lg p-0 cursor-pointer transition-transform duration-500 ease-out hover:scale-[1.02]"
               style={{
                 boxShadow: `
@@ -64,6 +70,14 @@ export function ParadigmShift() {
           </div>
         </div>
       </div>
+
+      <ShowcaseImageModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        imageSrc="/images/Event_CRM.png"
+        imageWebP="/images/Event_CRM.webp"
+        imageAlt="Havenue Event CRM showing event details, execution table, and financial tracking with actual revenue, food cost, and realized GP%"
+      />
     </section>
   );
 }
