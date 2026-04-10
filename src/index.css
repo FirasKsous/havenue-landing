@@ -1,0 +1,382 @@
+@import "tailwindcss";
+
+@theme {
+  /* Havenue Design System - Neon Glassmorphism Dark */
+  
+  /* Colors */
+  --color-bg: #0A0A0A;
+  --color-bg-elevated: #111111;
+  --color-bg-section-alt: #080808;
+  --color-primary: #2F8F4E;
+  --color-primary-hover: #38A35D;
+  --color-primary-glow: rgba(47, 143, 78, 0.15);
+  --color-primary-subtle: rgba(47, 143, 78, 0.08);
+  --color-surface: rgba(255, 255, 255, 0.03);
+  --color-surface-hover: rgba(255, 255, 255, 0.06);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(255, 255, 255, 0.15);
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: rgba(255, 255, 255, 0.7);
+  --color-text-muted: rgba(255, 255, 255, 0.5);
+  --color-danger: #EF4444;
+  --color-danger-muted: rgba(239, 68, 68, 0.15);
+  --color-accent-purple: #8B5CF6;
+  
+  /* Font Family */
+  --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  
+  /* FLUID TYPOGRAPHY - Larger Scale for Desktop */
+  --font-size-hero: clamp(2.5rem, 5vw + 0.5rem, 4.5rem);           /* 40px → 72px */
+  --font-size-h1: clamp(2.25rem, 4.5vw + 0.5rem, 4rem);            /* 36px → 64px */
+  --font-size-h2: clamp(2rem, 3.5vw + 0.5rem, 3.25rem);            /* 32px → 52px */
+  --font-size-h3: clamp(1.75rem, 2.5vw + 0.5rem, 2.5rem);          /* 28px → 40px */
+  --font-size-h4: clamp(1.375rem, 2vw + 0.25rem, 1.875rem);        /* 22px → 30px */
+  --font-size-body: clamp(1rem, 1.2vw + 0.25rem, 1.25rem);         /* 16px → 20px */
+  --font-size-body-sm: clamp(0.875rem, 1vw + 0.2rem, 1.0625rem);   /* 14px → 17px */
+  --font-size-eyebrow: clamp(0.75rem, 0.7vw + 0.2rem, 0.875rem);   /* 12px → 14px */
+  
+  /* FLUID SPACING - Expanded for Desktop */
+  --section-padding-y: clamp(4rem, 8vw, 7rem);        /* 64px → 112px */
+  --section-gap: clamp(2.5rem, 5vw, 5rem);            /* 40px → 80px */
+  --component-gap: clamp(1.75rem, 3vw, 3rem);         /* 28px → 48px */
+  --content-gap: clamp(1.25rem, 2vw, 2rem);           /* 20px → 32px */
+  --element-gap: clamp(0.75rem, 1vw, 1rem);           /* 12px → 16px */
+  
+  /* Animations */
+  --animate-fade-in-up: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-fade-in-down: fadeInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-glow-pulse: glowPulse 3s ease-in-out infinite;
+  --animate-scroll-left: scrollLeft 60s linear infinite;
+  --animate-scroll-right: scrollRight 70s linear infinite;
+  --animate-spin-slow: spin 8s linear infinite;
+  --animate-shine: shine 0.75s ease-in-out forwards;
+}
+
+/* Base Styles */
+@layer base {
+  html {
+    background-color: #0A0A0A;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    background-color: #0A0A0A;
+    color: #0A0A0A;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Focus indicators - WCAG compliant */
+  :focus-visible {
+    outline: 2px solid #2F8F4E;
+    outline-offset: 2px;
+  }
+
+  /* Selection */
+  ::selection {
+    background-color: rgba(47, 143, 78, 0.3);
+    color: #FFFFFF;
+  }
+}
+
+/* Glassmorphism Utilities */
+@layer components {
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+  
+  .glass-panel:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  .glass-button-primary {
+    background: #2F8F4E;
+    color: #FFFFFF;
+    font-weight: 600;
+    padding: 14px 32px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(47, 143, 78, 0.3), 0 0 60px rgba(47, 143, 78, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass-button-primary:hover {
+    background: #38A35D;
+    box-shadow: 0 0 30px rgba(47, 143, 78, 0.5), 0 0 80px rgba(47, 143, 78, 0.2);
+    transform: translateY(-1px);
+  }
+  
+  .glass-button-ghost {
+    background: transparent;
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 14px 32px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .glass-button-ghost:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: #2F8F4E;
+    color: #2F8F4E;
+  }
+  
+  .glass-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: #FFFFFF;
+    padding: 12px 16px;
+    width: 100%;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+  
+  .glass-input:focus {
+    border-color: #2F8F4E;
+    box-shadow: 0 0 0 3px rgba(47, 143, 78, 0.15);
+  }
+  
+  .glass-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+}
+
+/* Keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(47, 143, 78, 0.3), 0 0 40px rgba(47, 143, 78, 0.1);
+    transform: translateZ(20px) translateY(-50%) scale(1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(47, 143, 78, 0.5), 0 0 60px rgba(47, 143, 78, 0.2);
+    transform: translateZ(20px) translateY(-50%) scale(1.05);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(47, 143, 78, 0.3), 0 0 60px rgba(47, 143, 78, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(47, 143, 78, 0.5), 0 0 80px rgba(47, 143, 78, 0.2);
+  }
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Seamless Marquee Animations - GPU Accelerated */
+/* For seamless loop: duplicate items 4x, animate to -50% */
+/* The animation moves from 0 to -50%, showing the second half which is identical to first half */
+@keyframes marquee-left {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 200%;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes counter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modern 2D Animations — Subtle floating and glow effects */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: scale(0.85) translateY(0);
+  }
+  50% {
+    transform: scale(0.85) translateY(-6px);
+  }
+}
+
+@keyframes glow-pulse-subtle {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(47, 143, 78, 0.15), 0 0 20px rgba(47, 143, 78, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(47, 143, 78, 0.3), 0 0 40px rgba(47, 143, 78, 0.1);
+  }
+}
+
+/* Animation Utilities */
+@layer utilities {
+  .animate-glow-pulse {
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+
+  /* Gentle floating for overlay images */
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  /* Slower float for background/secondary images */
+  .animate-float-slow {
+    animation: float-slow 5s ease-in-out infinite;
+  }
+
+  /* Subtle glow pulse for connectors/icons */
+  .animate-glow-pulse-subtle {
+    animation: glow-pulse-subtle 3s ease-in-out infinite;
+  }
+
+  .pause-on-hover:hover {
+    animation-play-state: paused;
+  }
+
+  /* Marquee animations - Optimized */
+  .animate-marquee-left {
+    animation: marquee-left linear infinite;
+    will-change: transform;
+  }
+
+  .animate-marquee-right {
+    animation: marquee-right linear infinite;
+    will-change: transform;
+  }
+
+  /* Pause on hover - Pure CSS */
+  .group:hover .animate-marquee-left,
+  .group:hover .animate-marquee-right {
+    animation-play-state: paused;
+  }
+
+  /* Text utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .line-clamp-5 {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Content visibility for off-screen sections */
+  .content-visible {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}

@@ -1,0 +1,12 @@
+export { HeroSection } from './HeroSection';
+export { TrustBar } from './TrustBar';
+export { AgitationSection } from './AgitationSection';
+export { ParadigmShift } from './ParadigmShift';
+export { HowItWorks } from './HowItWorks';
+export { FeatureOCR } from './FeatureOCR';
+export { FeatureMenuBuilder } from './FeatureMenuBuilder';
+export { FeatureSafetyEngine } from './FeatureSafetyEngine';
+export { SocialProof } from './SocialProof';
+export { ROIAnchor } from './ROIAnchor';
+export { PricingSection } from './PricingSection';
+export { FAQSection } from './FAQSection';

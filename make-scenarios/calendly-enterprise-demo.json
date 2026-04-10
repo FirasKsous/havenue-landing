@@ -1,0 +1,56 @@
+{
+  "name": "Havenue — Calendly Enterprise Demo → CRM + Slack",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {
+        "hook": 0,
+        "maxResults": 1,
+        "name": "Havenue Calendly Webhook"
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "expect": [
+          { "name": "email", "type": "text", "required": true },
+          { "name": "name", "type": "text" },
+          { "name": "company", "type": "text" },
+          { "name": "phone", "type": "text" },
+          { "name": "event_type", "type": "text" },
+          { "name": "scheduled_at", "type": "text" }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {},
+      "mapper": {
+        "url": "https://your-supabase-project.supabase.co/functions/v1/capture-lead",
+        "method": "post",
+        "headers": [
+          { "name": "Content-Type", "value": "application/json" },
+          { "name": "Authorization", "value": "Bearer YOUR_SUPABASE_ANON_KEY" }
+        ],
+        "body": "{\"email\":\"{{1.email}}\",\"source\":\"calendly_enterprise\",\"marketingConsent\":false}",
+        "contentType": "raw",
+        "rawContentType": "application/json"
+      },
+      "metadata": { "designer": { "x": 300, "y": 0 } }
+    },
+    {
+      "id": 3,
+      "module": "slack:ActionPostMessage",
+      "version": 1,
+      "parameters": { "connection": 0 },
+      "mapper": {
+        "channel": "#sales-alerts",
+        "text": "🗓 *New Enterprise Demo Booked*\n\n*Name:* {{1.name}}\n*Email:* {{1.email}}\n*Company:* {{1.company}}\n*Phone:* {{1.phone}}\n*Scheduled:* {{1.scheduled_at}}\n\n_Calendly → Havenue CRM_"
+      },
+      "metadata": { "designer": { "x": 600, "y": 0 } }
+    }
+  ]
+}
