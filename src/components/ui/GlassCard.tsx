@@ -7,11 +7,13 @@ interface GlassCardProps {
   hoverEffect?: boolean;
   noBlur?: boolean;
   style?: React.CSSProperties;
+  onClick?: () => void;
 }
 
-export function GlassCard({ children, className, hoverEffect = true, noBlur = false, style }: GlassCardProps) {
+export function GlassCard({ children, className, hoverEffect = true, noBlur = false, style, onClick }: GlassCardProps) {
   return (
     <div
+      onClick={onClick}
       className={cn(
         'bg-white/[0.03] border border-white/10 rounded-lg',
         !noBlur && 'backdrop-blur-sm',

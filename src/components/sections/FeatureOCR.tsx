@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { featureOCRCopy } from '../../data/copy';
 import { GlassCard } from '../ui/GlassCard';
@@ -6,10 +6,13 @@ import { SectionHeading } from '../ui/SectionHeading';
 import { ArrowRight } from 'lucide-react';
 import { MessyPDFBefore } from '../ui/MessyPDFBefore';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { ShowcaseImageModal } from '../modals/ShowcaseImageModal';
 
 export function FeatureOCR() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleImageClick = useCallback(() => setIsModalOpen(true), []);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'center center'],
@@ -81,11 +84,12 @@ export function FeatureOCR() {
                 </div>
                 <GlassCard
                   noBlur
-                  className="relative p-0 border-[#2F8F4E]/30 cursor-pointer"
+                  className="relative p-0 border-[#2F8F4E]/30 cursor-pointer transition-transform duration-300 ease-out hover:scale-[1.03]"
                   style={{
                     boxShadow:
                       '0 30px 60px rgba(0,0,0,0.5), 0 0 60px rgba(47, 143, 78,0.15), inset 0 1px 0 rgba(255,255,255,0.08)',
                   }}
+                  onClick={handleImageClick}
                 >
                   <div className="rounded-lg overflow-hidden bg-[#111]">
                     <picture>
@@ -95,7 +99,7 @@ export function FeatureOCR() {
                       />
                       <img
                         src="/images/ocr-dish-database.png"
-                alt="Havenue OCR engine converting PDF menus into structured dish database with ingredients and costs"
+                        alt="Havenue OCR engine converting PDF menus into structured dish database with ingredients and costs"
                         className="w-full h-auto block"
                         width="800"
                         height="500"
@@ -124,6 +128,14 @@ export function FeatureOCR() {
           </div>
         </div>
       </div>
+
+      <ShowcaseImageModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        imageSrc="/images/ocr-dish-database.png"
+        imageWebP="/images/ocr-dish-database.webp"
+        imageAlt="Havenue OCR engine converting PDF menus into structured dish database with ingredients and costs"
+      />
     </section>
   );
 }
