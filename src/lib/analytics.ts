@@ -100,7 +100,17 @@ export async function trackEvent({ event, data, sectionId }: TrackEventParams): 
     }
   }
 
-  // 2. Send to GA4 (if loaded)
+  // 2. Push to GTM dataLayer (picked up by GA4 tag configured in GTM)
+  if (typeof window !== 'undefined' && window.dataLayer) {
+    window.dataLayer.push({
+      event,
+      ...data,
+      anonymous_id: anonymousId,
+      section_id: sectionId,
+    })
+  }
+
+  // 3. Send to GA4 directly (fallback if gtag.js loaded outside GTM)
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', event, {
       ...data,
@@ -135,9 +145,10 @@ export function initScrollTracking(): () => void {
   return () => window.removeEventListener('scroll', onScroll)
 }
 
-// Extend window for GA4
+// Extend window for GTM dataLayer and GA4
 declare global {
   interface Window {
+    dataLayer?: Record<string, unknown>[]
     gtag?: (...args: unknown[]) => void
   }
 }

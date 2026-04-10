@@ -312,26 +312,18 @@ export function CookieConsent() {
   );
 }
 
-/** Dynamically inject GA4 script only after consent */
+/** Signal analytics consent to GTM dataLayer so GA4 tag can fire */
 function loadGA4() {
-  const gaId = import.meta.env.VITE_GA4_ID;
-  if (!gaId || document.querySelector(`script[src*="googletagmanager"]`)) return;
-
-  const script = document.createElement('script');
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
-  script.async = true;
-  document.head.appendChild(script);
-
   window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag(...args: unknown[]) {
-    (window.dataLayer as unknown[]).push(args);
-  };
-  window.gtag('js', new Date());
-  window.gtag('config', gaId);
-}
+  window.dataLayer.push({
+    event: 'analytics_consent_granted',
+  });
 
-declare global {
-  interface Window {
-    dataLayer?: unknown[];
+  // Also configure gtag directly if GA4 ID is available (belt-and-suspenders)
+  const gaId = import.meta.env.VITE_GA4_ID;
+  if (gaId && window.gtag) {
+    window.gtag('consent', 'update', {
+      analytics_storage: 'granted',
+    });
   }
 }
